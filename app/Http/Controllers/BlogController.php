@@ -45,9 +45,10 @@ class BlogController extends Controller
             }
         }
         if ($border < 3) {
-            $new_blog = Blog::create($request->validated());
+            Blog::create($request->validated());
 
-            Cache::put('blogs-page-' . request('page', 1), $new_blog);
+            Cache::delete('blogs-page-' . request('page', 1));
+            Cache::delete('user_blogs-page-' . request('page', 1));
 
             return redirect()->route('dashboard')
                 ->with('success', 'Blog created successfully.');
